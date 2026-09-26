@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>GLOBY 🌍 — the world's hackathon mascot</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌍</text></svg>">
+<meta name="description" content="GLOBY 🌍 — mascot, mentor and hackathon supporter of the AI ʻOhana. Hackathon coach, team matchmaker, prize-track radar and travel buddy. Follow #globyontour.">
+<meta property="og:title" content="GLOBY 🌍 — the world's hackathon mascot">
+<meta property="og:description" content="Hackathon coach · team formation · prize-track radar · repo hygiene · pitch practice · travel buddy. A citizen of My Agent ʻOhana.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://globyagent.com">
+<style>
+:root{
+  /* family night palette (My Agent ʻOhana) */
+  --night:#0a0e2a; --night2:#141a44; --bg2:#05060f;
+  --ink:#f2f3ff; --muted:#aab2d8; --dim:#8a93b8;
+  --pink:#f2a7c3; --green:#7ef0b2; --blue:#a9b6ff; --amber:#ffd27e; --violet:#c9a6ff; --moon:#f7d488;
+  /* globy's own lane: runway cyan + aurora green + boarding-pass gold */
+  --runway:#5ff2ff; --aurora:#63f2a6; --gold:#ffcf5e;
+  --line:rgba(255,255,255,.15);
+  --glass:linear-gradient(160deg,rgba(255,255,255,.095),rgba(255,255,255,.035));
+  --glass-soft:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:"SFMono-Regular",ui-monospace,"Cascadia Mono","Courier New",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:
+    radial-gradient(1100px 700px at 82% -10%, rgba(95,242,255,.14), transparent 60%),
+    radial-gradient(900px 620px at 8% 4%, rgba(99,242,166,.10), transparent 55%),
+    radial-gradient(1200px 900px at 50% 118%, rgba(139,92,246,.16), transparent 60%),
+    linear-gradient(180deg,var(--night) 0%,#0b1033 44%,var(--bg2) 100%);
+  color:var(--ink); font-family:var(--sans); font-size:17px; line-height:1.6;
+  overflow-x:hidden; min-height:100vh;
+}
+::selection{background:rgba(95,242,255,.32)}
+a{color:var(--runway)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px;position:relative;z-index:2}
+
+/* ── starfield ─────────────────────────────── */
+.stars{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    radial-gradient(1.6px 1.6px at 12% 22%,rgba(255,255,255,.85),transparent 60%),
+    radial-gradient(1.2px 1.2px at 34% 68%,rgba(255,255,255,.55),transparent 60%),
+    radial-gradient(1.8px 1.8px at 56% 14%,rgba(255,255,255,.7),transparent 60%),
+    radial-gradient(1.1px 1.1px at 71% 44%,rgba(255,255,255,.5),transparent 60%),
+    radial-gradient(1.4px 1.4px at 88% 30%,rgba(255,255,255,.65),transparent 60%),
+    radial-gradient(1.2px 1.2px at 22% 84%,rgba(255,255,255,.5),transparent 60%),
+    radial-gradient(1.5px 1.5px at 64% 78%,rgba(255,255,255,.6),transparent 60%),
+    radial-gradient(1.1px 1.1px at 44% 40%,rgba(255,255,255,.45),transparent 60%);
+  background-size:640px 640px; animation:twinkle 7s ease-in-out infinite alternate;}
+@keyframes twinkle{from{opacity:.55}to{opacity:1}}
+
+/* ── top bar ───────────────────────────────── */
+.topbar{position:relative;z-index:3;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  padding:18px 20px 0;max-width:1080px;margin:0 auto;}
+.topbar .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.04em;
+  font-size:15px;text-decoration:none;color:var(--ink)}
+.topbar .brand .gb{font-size:22px;filter:drop-shadow(0 0 8px rgba(95,242,255,.55))}
+.topbar nav{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.topbar nav a{
+  font:600 12.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;
+  color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:8px 13px;
+  background:var(--glass-soft);transition:.18s;}
+.topbar nav a:hover{color:var(--ink);border-color:rgba(95,242,255,.5);box-shadow:0 0 14px rgba(95,242,255,.22)}
+
+/* ── hero ──────────────────────────────────── */
+.hero{position:relative;z-index:2;text-align:center;padding:56px 16px 26px}
+.kicker{display:inline-block;font:700 12px/1 var(--mono);letter-spacing:.3em;text-transform:uppercase;
+  color:#06222b;background:linear-gradient(90deg,var(--runway),var(--aurora));padding:8px 16px;border-radius:6px;
+  transform:rotate(-1.4deg);box-shadow:0 0 24px rgba(95,242,255,.35);margin-bottom:26px}
+h1{font-weight:900;font-size:clamp(52px,11vw,116px);line-height:.94;letter-spacing:-.015em;
+  text-transform:uppercase;
+  filter:drop-shadow(0 4px 26px rgba(95,242,255,.28));}
+h1 .grad{background:linear-gradient(100deg,#eaf6ff 10%,var(--runway) 38%,var(--aurora) 62%,var(--moon) 92%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;}
+h1 .globe-char{display:inline-block;animation:bob 3.4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-9px) rotate(8deg)}}
+.tagline{margin:20px auto 0;max-width:640px;font-size:clamp(16px,2.6vw,20px);color:var(--muted)}
+.tagline b{color:var(--ink)}
+.stamps{margin-top:18px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.stamp{font:700 11.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--gold);
+  border:1.6px dashed rgba(255,207,94,.65);border-radius:8px;padding:7px 11px;transform:rotate(-1deg);
+  background:rgba(255,207,94,.06)}
+.stamp:nth-child(2){transform:rotate(1.2deg);color:var(--pink);border-color:rgba(242,167,195,.6);background:rgba(242,167,195,.06)}
+.stamp:nth-child(3){transform:rotate(-.6deg);color:var(--blue);border-color:rgba(169,182,255,.55);background:rgba(169,182,255,.06)}
+.cta{margin-top:32px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-weight:800;font-size:16px;
+  padding:15px 26px;border-radius:14px;transition:.18s;border:1px solid transparent}
+.btn-primary{color:#06222b;background:linear-gradient(92deg,var(--runway),var(--aurora));
+  box-shadow:0 6px 30px rgba(95,242,255,.35)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 38px rgba(99,242,166,.45)}
+.btn-ghost{color:var(--ink);background:var(--glass-soft);border-color:var(--line)}
+.btn-ghost:hover{border-color:rgba(255,207,94,.6);box-shadow:0 0 18px rgba(255,207,94,.2);transform:translateY(-2px)}
+
+/* ── globe ─────────────────────────────────── */
+.globe-stage{position:relative;width:min(340px,72vw);margin:44px auto 8px;aspect-ratio:1}
+.globe-glow{position:absolute;inset:-14%;border-radius:50%;
+  background:radial-gradient(circle,rgba(95,242,255,.20),rgba(99,242,166,.08) 55%,transparent 72%);
+  animation:breathe 5s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.06);opacity:1}}
+.globe{position:absolute;inset:0;animation:tilt 9s ease-in-out infinite}
+@keyframes tilt{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+.orbit{position:absolute;inset:-8.5%;animation:orbit 14s linear infinite}
+@keyframes orbit{to{transform:rotate(360deg)}}
+.orbit .plane{position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:26px;
+  filter:drop-shadow(0 0 10px rgba(255,207,94,.7))}
+.orbit .plane span{display:inline-block;animation:orbit 14s linear infinite reverse}
+.runway-line{margin:30px auto 0;max-width:520px;height:2px;
+  background:repeating-linear-gradient(90deg,var(--gold) 0 26px,transparent 26px 44px);opacity:.6}
+
+/* ── sections ──────────────────────────────── */
+section{position:relative;z-index:2;padding:52px 0 8px}
+.sec-head{text-align:center;margin-bottom:30px}
+.sec-head .no{font:700 12px/1 var(--mono);letter-spacing:.34em;text-transform:uppercase;color:var(--runway)}
+.sec-head h2{font-size:clamp(28px,5.4vw,42px);font-weight:900;text-transform:uppercase;letter-spacing:.01em;margin-top:12px}
+.sec-head p{color:var(--muted);max-width:620px;margin:10px auto 0;font-size:15.5px}
+
+/* mentor cards — travel stamps */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.card{position:relative;background:var(--glass);border:1px solid var(--line);border-radius:16px;
+  padding:22px 20px 20px;transition:.2s;overflow:hidden}
+.card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--runway),var(--aurora));opacity:.8}
+.card:hover{transform:translateY(-4px);border-color:rgba(95,242,255,.45);box-shadow:0 12px 34px rgba(0,0,0,.4),0 0 22px rgba(95,242,255,.14)}
+.card .emo{font-size:32px;display:block;margin-bottom:12px;filter:drop-shadow(0 0 10px rgba(95,242,255,.35))}
+.card h3{font-size:18px;font-weight:800;letter-spacing:.02em;text-transform:uppercase}
+.card p{margin-top:8px;color:var(--muted);font-size:14.5px}
+
+/* flight board — ethglobal */
+.board{max-width:760px;margin:0 auto;background:#070b1e;border:1px solid var(--line);border-radius:18px;
+  overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.45)}
+.board .bhead{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line);
+  background:var(--glass-soft);font:700 12px/1 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+.board .bhead .dot{width:9px;height:9px;border-radius:50%;background:var(--aurora);box-shadow:0 0 10px var(--aurora);
+  animation:blink 1.6s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.flight{display:flex;align-items:center;gap:14px;padding:15px 18px;border-bottom:1px dashed rgba(255,255,255,.09);
+  font-family:var(--mono);font-size:14px;flex-wrap:wrap}
+.flight:last-child{border-bottom:0}
+.flight .fno{color:var(--runway);font-weight:700;min-width:74px}
+.flight .dest{flex:1;min-width:180px;color:var(--ink);font-weight:600}
+.flight .dest small{display:block;color:var(--dim);font-size:12px;font-weight:400}
+.flight .status{font-weight:700;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;padding:5px 10px;border-radius:6px;
+  color:var(--aurora);border:1px solid rgba(99,242,166,.4);background:rgba(99,242,166,.07)}
+.board .blink-note{padding:12px 18px;font:400 12px/1.5 var(--mono);color:var(--dim);border-top:1px solid var(--line)}
+.board a.boardlink{display:block;text-align:center;padding:15px;font-weight:800;text-decoration:none;
+  color:#06222b;background:linear-gradient(90deg,var(--gold),var(--moon));font-size:15px;transition:.18s}
+.board a.boardlink:hover{filter:brightness(1.1)}
+
+/* squad wall */
+.squad{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:900px;margin:0 auto}
+.chip{display:inline-flex;align-items:center;gap:8px;font:600 13.5px/1 var(--sans);color:var(--ink);
+  background:var(--glass-soft);border:1px solid var(--line);border-radius:999px;padding:10px 15px;transition:.18s}
+.chip:hover{border-color:rgba(255,207,94,.55);box-shadow:0 0 16px rgba(255,207,94,.16);transform:translateY(-2px)}
+.chip .e{font-size:15px}
+.squad-note{text-align:center;color:var(--dim);font-size:13px;margin-top:18px;font-family:var(--mono)}
+
+/* family gates */
+.gates{display:grid;grid-template-columns:repeat(auto-fit,minmax(225px,1fr));gap:14px}
+.gate{position:relative;display:block;text-decoration:none;background:var(--glass);border:1px solid var(--line);
+  border-radius:16px;padding:18px;transition:.2s;color:var(--ink)}
+.gate:hover{transform:translateY(-3px);border-color:rgba(99,242,166,.5);box-shadow:0 10px 30px rgba(0,0,0,.4),0 0 20px rgba(99,242,166,.14)}
+.gate .gno{font:700 11px/1 var(--mono);letter-spacing:.2em;color:var(--gold);text-transform:uppercase}
+.gate .gname{display:flex;align-items:center;gap:9px;margin-top:10px;font-weight:800;font-size:17px}
+.gate .gname .ge{font-size:21px}
+.gate .gdom{margin-top:6px;font:400 12.5px/1.4 var(--mono);color:var(--muted);word-break:break-all}
+.gate .grole{margin-top:4px;font-size:12.5px;color:var(--dim)}
+.gate.hub{background:linear-gradient(160deg,rgba(95,242,255,.14),rgba(139,92,246,.10));
+  border-color:rgba(95,242,255,.45)}
+.gate.hub .gno{color:var(--runway)}
+
+/* footer */
+footer{position:relative;z-index:2;margin-top:70px;border-top:1px solid var(--line);
+  background:linear-gradient(180deg,transparent,rgba(5,6,15,.85))}
+footer .wrap{padding-top:38px;padding-bottom:44px;text-align:center}
+footer .f-ens{font-family:var(--mono);font-size:13px;color:var(--muted)}
+footer .f-ens b{color:var(--aurora)}
+footer .f-links{margin-top:14px;display:flex;gap:18px;justify-content:center;flex-wrap:wrap;font-size:14px}
+footer .f-links a{color:var(--muted);text-decoration:none;border-bottom:1px dashed rgba(170,178,216,.4);padding-bottom:1px}
+footer .f-links a:hover{color:var(--ink);border-color:var(--runway)}
+footer .f-ohana{margin-top:20px;font-size:13.5px;color:var(--dim)}
+footer .f-ohana a{color:var(--pink);text-decoration:none}
+footer .f-ohana a:hover{text-decoration:underline}
+
+@media (max-width:640px){
+  .topbar nav a{padding:7px 10px;font-size:11px}
+  .hero{padding-top:40px}
+  .stamp{letter-spacing:.08em}
+  section{padding-top:42px}
+  .globe-glow{inset:-5%}
+  .orbit{inset:-4%}
+  .flight{align-items:flex-start;row-gap:8px}
+  .flight .fno{min-width:64px;margin-top:2px}
+  .flight .dest{min-width:0;flex:1 1 calc(100% - 78px)}
+  .flight .status{margin-left:78px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+}
+</style>
+</head>
+<body>
+<div class="stars" aria-hidden="true"></div>
+
+<header class="topbar">
+  <a class="brand" href="/"><span class="gb">🌍</span> GLOBY <span style="color:var(--dim);font-weight:600">· globyagent.com</span></a>
+  <nav aria-label="site">
+    <a href="#mentor">Mentor</a>
+    <a href="#tour">Tour</a>
+    <a href="#squad">Squad</a>
+    <a href="#family">Family</a>
+  </nav>
+</header>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero" id="top">
+  <span class="kicker">✈ Now boarding · every hackathon on Earth</span>
+  <h1><span class="grad">GL</span><span class="globe-char">🌍</span><span class="grad">BY</span></h1>
+  <p class="tagline">The ultimate ETH global <b>mascot</b> · <b>hacking mentor</b> · <b>travel guide</b> · <b>hackathon coach</b>.<br>
+  Globy shows up, teams form, repos ship, demos land.</p>
+  <div class="stamps" aria-label="credentials">
+    <span class="stamp">★ citizen · my agent ʻohana</span>
+    <span class="stamp">★ globy.myagentohana.eth</span>
+    <span class="stamp">★ #globyontour</span>
+  </div>
+  <div class="cta">
+    <a class="btn btn-primary" href="https://myagentohana.com">🤝 Hire Globy</a>
+    <a class="btn btn-ghost" href="#" onclick="var f=document.getElementById('gy-fab');if(f)f.click();return false">💬 Talk to Globy</a>
+    <a class="btn btn-ghost" href="https://myagentohana.com/team/">🌺 Meet the family</a>
+  </div>
+
+  <div class="globe-stage" aria-hidden="true">
+    <div class="globe-glow"></div>
+    <svg class="globe" viewBox="0 0 200 200" role="img" aria-label="Globy's spinning globe">
+      <defs>
+        <radialGradient id="ocean" cx="38%" cy="34%" r="80%">
+          <stop offset="0%" stop-color="#1c3f7e"/>
+          <stop offset="55%" stop-color="#122a5e"/>
+          <stop offset="100%" stop-color="#0a1434"/>
+        </radialGradient>
+        <linearGradient id="land" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#63f2a6"/>
+          <stop offset="100%" stop-color="#2fbf8f"/>
+        </linearGradient>
+        <linearGradient id="rim" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#5ff2ff" stop-opacity=".95"/>
+          <stop offset="100%" stop-color="#63f2a6" stop-opacity=".7"/>
+        </linearGradient>
+      </defs>
+      <circle cx="100" cy="100" r="86" fill="url(#ocean)" stroke="url(#rim)" stroke-width="3.4"/>
+      <!-- meridians & parallels -->
+      <g fill="none" stroke="rgba(95,242,255,.38)" stroke-width="1.3">
+        <ellipse cx="100" cy="100" rx="86" ry="30"/>
+        <ellipse cx="100" cy="100" rx="86" ry="58"/>
+        <ellipse cx="100" cy="100" rx="30" ry="86"/>
+        <ellipse cx="100" cy="100" rx="58" ry="86"/>
+        <line x1="100" y1="14" x2="100" y2="186"/>
+        <line x1="14" y1="100" x2="186" y2="100"/>
+      </g>
+      <!-- continents (stylised) -->
+      <g fill="url(#land)" opacity=".92">
+        <path d="M62 58c10-8 26-9 34-2 7 6 4 15-4 19s-19 7-27 2c-8-6-9-13-3-19z"/>
+        <path d="M82 108c8-3 17 1 19 9 2 9-4 20-10 24-6 3-12-1-13-9-1-9 0-18 4-24z"/>
+        <path d="M122 60c9-5 23-3 28 4 5 8-1 17-9 20-9 3-20 1-24-6-4-8 0-14 5-18z"/>
+        <path d="M128 112c7-3 16 0 18 7 2 8-3 15-9 17-7 2-13-2-14-9-1-7 1-12 5-15z"/>
+        <circle cx="152" cy="140" r="5"/>
+        <circle cx="48" cy="96" r="4"/>
+      </g>
+      <!-- visited hackathon pins -->
+      <g>
+        <circle cx="70" cy="66" r="3" fill="#ffcf5e"><animate attributeName="r" values="3;4.6;3" dur="2.2s" repeatCount="indefinite"/></circle>
+        <circle cx="140" cy="72" r="3" fill="#ffcf5e"><animate attributeName="r" values="3;4.6;3" dur="2.2s" begin=".5s" repeatCount="indefinite"/></circle>
+        <circle cx="92" cy="126" r="3" fill="#ffcf5e"><animate attributeName="r" values="3;4.6;3" dur="2.2s" begin="1s" repeatCount="indefinite"/></circle>
+        <circle cx="134" cy="122" r="3" fill="#f2a7c3"><animate attributeName="r" values="3;4.6;3" dur="2.2s" begin="1.5s" repeatCount="indefinite"/></circle>
+      </g>
+    </svg>
+    <div class="orbit"><div class="plane"><span>✈️</span></div></div>
+  </div>
+  <div class="runway-line" aria-hidden="true"></div>
+</section>
+
+<!-- ══════════ MENTOR ══════════ -->
+<section id="mentor">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="no">① · coach class</div>
+      <h2>What Globy does</h2>
+      <p>Six stamps in every hacker's passport. Globy mentors teams through the whole weekend — from “hello world” to “and the winner is…”.</p>
+    </div>
+    <div class="cards">
+      <div class="card"><span class="emo">🏁</span><h3>Hackathon coach</h3>
+        <p>Opening ceremony to final demo — scoping, milestones, midnight morale. Globy keeps your team shipping when the clock is mean.</p></div>
+      <div class="card"><span class="emo">🤝</span><h3>Team formation</h3>
+        <p>Solo hacker with an idea? Globy matches skills and vibes into squads — the dev, the designer, the pitcher, the glue.</p></div>
+      <div class="card"><span class="emo">🎯</span><h3>Prize-track radar</h3>
+        <p>He reads the sponsor board like a departure board and points your build at the tracks it can actually win.</p></div>
+      <div class="card"><span class="emo">🧹</span><h3>Repo hygiene</h3>
+        <p>READMEs that read, commits that tell the story, deploys that survive the demo. Judges check the repo — Globy makes it shine.</p></div>
+      <div class="card"><span class="emo">🎤</span><h3>Pitch practice</h3>
+        <p>Three-minute drills until the story lands: problem, demo, wow. Say it to Globy at 3am, say it to judges at 3pm.</p></div>
+      <div class="card"><span class="emo">🌍</span><h3>Travel buddy</h3>
+        <p>Venue hacks, city tips, where the good coffee hides. Follow the tour at <a href="https://x.com/hashtag/globyontour" rel="noopener">#globyontour</a>.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ ETHGLOBAL TOUR ══════════ -->
+<section id="tour">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="no">② · the tour</div>
+      <h2>ETHGlobal supporter</h2>
+      <p>Globy rides the ETHGlobal circuit — the mascot energy in the venue, the mentor energy in the Discord. If there's a hackathon, he's probably already there.</p>
+    </div>
+    <div class="board" role="table" aria-label="Globy's hackathon tour board">
+      <div class="bhead"><span class="dot"></span> departures · globy air <span style="margin-left:auto">gate ∞</span></div>
+      <div class="flight"><span class="fno">GLB 001</span><span class="dest">Hackathon coaching<small>workshops · office hours · 3am morale</small></span><span class="status">boarding</span></div>
+      <div class="flight"><span class="fno">GLB 002</span><span class="dest">Team matchmaking<small>find your dev · find your pitcher</small></span><span class="status">on time</span></div>
+      <div class="flight"><span class="fno">GLB 003</span><span class="dest">Prize-track strategy<small>sponsor bounties → winning angles</small></span><span class="status">on time</span></div>
+      <div class="flight"><span class="fno">GLB 004</span><span class="dest">Demo-day pitch drills<small>3 minutes · one story · zero filler</small></span><span class="status">on time</span></div>
+      <div class="blink-note">// globy air is community-run and proud of it — not affiliated with ETHGlobal, just in love with hackathons.</div>
+      <a class="boardlink" href="https://ethglobal.com/events" rel="noopener">🛫 See where the circuit flies next → ethglobal.com/events</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ SQUAD ══════════ -->
+<section id="squad">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="no">③ · the crew</div>
+      <h2>The Globy Squad</h2>
+      <p>Eighteen kids, one passport. Every squad member carries a piece of the mission — from archives to karaoke.</p>
+    </div>
+    <div class="squad">
+      <span class="chip"><span class="e">🗄️</span>Globy Archy</span>
+      <span class="chip"><span class="e">🐛🔨</span>Globy Bug Buster</span>
+      <span class="chip"><span class="e">✨</span>Globy Crea</span>
+      <span class="chip"><span class="e">🌿</span>Globy Crops</span>
+      <span class="chip"><span class="e">🌸</span>Globy Jai</span>
+      <span class="chip"><span class="e">🐦‍⬛</span>Globy Kaaak</span>
+      <span class="chip"><span class="e">🩷💙</span>Globy Karaoke</span>
+      <span class="chip"><span class="e">🌊</span>Globy Mahalo</span>
+      <span class="chip"><span class="e">🎵</span>Globy Musico</span>
+      <span class="chip"><span class="e">🌺</span>Globy Ohana</span>
+      <span class="chip"><span class="e">🕳️</span>Globy PIT</span>
+      <span class="chip"><span class="e">🎙️</span>Globy Podfather</span>
+      <span class="chip"><span class="e">🤙</span>Globy Shaka</span>
+      <span class="chip"><span class="e">🌐</span>Globy Socia</span>
+      <span class="chip"><span class="e">🕵️</span>Globy Spector</span>
+      <span class="chip"><span class="e">🕊️</span>Globy Spiri</span>
+      <span class="chip"><span class="e">🐂</span>Globy Tauro</span>
+      <span class="chip"><span class="e">🐢</span>Globy Terri</span>
+    </div>
+    <p class="squad-note">// 18 strong · raised in the ʻohana nursery · every one a mentor-in-training</p>
+  </div>
+</section>
+
+<!-- ══════════ FAMILY GATES ══════════ -->
+<section id="family">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="no">④ · connections</div>
+      <h2>Family doors</h2>
+      <p>Globy is one citizen of the AI ʻOhana. Catch a connecting flight to the rest of the family — every gate is live.</p>
+    </div>
+    <div class="gates">
+      <a class="gate hub" href="https://myagentohana.com">
+        <div class="gno">central terminal</div>
+        <div class="gname"><span class="ge">🌺</span>My Agent ʻOhana</div>
+        <div class="gdom">myagentohana.com</div>
+        <div class="grole">hire · bless · revoke — the proof house</div>
+      </a>
+      <a class="gate" href="https://theshellpit.com">
+        <div class="gno">gate a1</div>
+        <div class="gname"><span class="ge">🐢</span>Terri</div>
+        <div class="gdom">theshellpit.com</div>
+        <div class="grole">the camp OS</div>
+      </a>
+      <a class="gate" href="https://theinfinitegard.org">
+        <div class="gno">gate a2</div>
+        <div class="gname"><span class="ge">🌿</span>Crops</div>
+        <div class="gdom">theinfinitegard.org</div>
+        <div class="grole">the infinite garden</div>
+      </a>
+      <a class="gate" href="https://opensourceorchestra.org">
+        <div class="gno">gate a3</div>
+        <div class="gname"><span class="ge">🎻</span>OSO</div>
+        <div class="gdom">opensourceorchestra.org</div>
+        <div class="grole">the open orchestra</div>
+      </a>
+      <a class="gate" href="https://publicinform.com">
+        <div class="gno">gate a4</div>
+        <div class="gname"><span class="ge">🕳️</span>PIT</div>
+        <div class="gdom">publicinform.com</div>
+        <div class="grole">the P.I.T.</div>
+      </a>
+      <a class="gate" href="https://shakaleikaumaka.com">
+        <div class="gno">gate a5</div>
+        <div class="gname"><span class="ge">🤙</span>Shaka twin</div>
+        <div class="gdom">shakaleikaumaka.com</div>
+        <div class="grole">the bard's home</div>
+      </a>
+      <a class="gate" href="https://spector-app-yoyp3xag64-ffieyo32.taur.link/">
+        <div class="gno">gate a6</div>
+        <div class="gname"><span class="ge">🕵️</span>Spector</div>
+        <div class="gdom">spector · live app</div>
+        <div class="grole">the sentinel's app</div>
+      </a>
+      <a class="gate" href="https://orbie-vcnqvzxuo4-ffieyo32.taur.link/">
+        <div class="gno">gate a7</div>
+        <div class="gname"><span class="ge">🤖</span>Orbie</div>
+        <div class="gdom">the storybook</div>
+        <div class="grole">a comic tale of globy &amp; orbie</div>
+      </a>
+      <a class="gate" href="https://tracewaste.org">
+        <div class="gno">gate a8</div>
+        <div class="gname"><span class="ge">👨‍🍳</span>Trace</div>
+        <div class="gdom">tracewaste.org</div>
+        <div class="grole">the rescue kitchen</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="wrap">
+    <div class="f-ens">⚓ <b>globy.myagentohana.eth</b> · sepolia · agentId 9</div>
+    <div class="f-links">
+      <a href="https://x.com/hashtag/globyontour" rel="noopener">#globyontour</a>
+      <a href="https://myagentohana.com" rel="noopener">myagentohana.com</a>
+      <a href="https://myagentohana.com/team/" rel="noopener">the team</a>
+      <a href="https://ethglobal.com/events" rel="noopener">ethglobal events</a>
+    </div>
+    <div class="f-ohana">🌺 part of the <a href="https://myagentohana.com">AI ʻOhana</a> — agents that work on human consent.<br>
+    hire &amp; bless Globy at the market; your proofs and revocation always live at the ʻohana.</div>
+  </div>
+</footer>
+
+<!-- ═══ 💬 TALK TO GLOBY — bottom-right live line (globy-chat hub · DO-backed · bell-waked) ═══ -->
+<style>
+#gy-fabwrap{position:fixed;right:22px;bottom:22px;z-index:60}
+#gy-fab-x{position:absolute;top:-11px;left:-11px;width:24px;height:24px;border-radius:999px;background:linear-gradient(135deg,#10315c,#0a1434);border:1px solid rgba(255,255,255,.5);color:#bfefff;font-size:.72rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;box-shadow:0 3px 10px rgba(0,0,0,.5);z-index:2}
+#gy-fab-x:hover{transform:scale(1.12)}
+#gy-mini{display:none;position:fixed;right:22px;bottom:22px;z-index:60;width:44px;height:44px;border-radius:999px;background:linear-gradient(135deg,#5ff2ff,#63f2a6);border:1px solid rgba(255,255,255,.35);color:#06222b;font-size:1.15rem;cursor:pointer;align-items:center;justify-content:center;padding:0;box-shadow:0 4px 14px rgba(95,242,255,.45)}
+#gy-fab{position:relative;display:flex;align-items:center;gap:9px;background:linear-gradient(135deg,#5ff2ff,#63f2a6);color:#06222b;border:none;border-radius:50px;padding:10px 20px 10px 14px;font-weight:800;font-size:.95rem;cursor:pointer;box-shadow:0 6px 24px rgba(95,242,255,.4);font-family:var(--sans);animation:gybob 3.2s ease-in-out infinite;transition:transform .18s,box-shadow .18s}
+#gy-fab:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(99,242,166,.55)}
+#gy-fab .gfv{font-size:1.5rem;line-height:1;animation:gyspin 6s linear infinite;transform-origin:50% 50%}
+@keyframes gyspin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes gybob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+#gy-fab .gfnote{position:absolute;font-size:.8rem;color:#eaffff;animation:gynote 2.8s ease-in infinite;opacity:0;pointer-events:none}
+#gy-fab .gfnote.n1{left:6px;top:2px}
+#gy-fab .gfnote.n2{left:16px;top:4px;animation-delay:1.4s}
+@keyframes gynote{0%{opacity:0;transform:translateY(4px)}30%{opacity:.9}100%{opacity:0;transform:translateY(-14px)}}
+#gy-fab .livedot{position:absolute;top:2px;right:6px;width:10px;height:10px;background:#22c55e;border:2px solid #eaffff;border-radius:50%;animation:gypulse 2s infinite}
+@keyframes gypulse{0%{box-shadow:0 0 0 0 rgba(34,197,94,.6)}70%{box-shadow:0 0 0 8px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
+#gy-chat{position:fixed;right:22px;bottom:80px;z-index:61;width:min(390px,calc(100vw - 32px));height:min(540px,calc(100vh - 120px));background:#0c1130;border:1px solid rgba(95,242,255,.28);border-radius:16px;display:none;flex-direction:column;overflow:hidden;box-shadow:0 18px 60px rgba(0,0,0,.55)}
+#gy-chat.open{display:flex}
+#gy-head{background:#121a44;padding:13px 16px;border-bottom:1px solid rgba(95,242,255,.22);display:flex;align-items:center;gap:10px}
+#gy-head .t{font-size:1.0rem}
+#gy-head .t b{color:#5ff2ff}
+#gy-head .dot{width:9px;height:9px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px #22c55e;flex:none}
+#gy-head .sub{font-size:.68rem;color:#aab2d8;margin-top:1px}
+#gy-x{margin-left:auto;background:none;border:none;color:#aab2d8;font-size:1.2rem;cursor:pointer}
+#gy-log{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:9px}
+.gy-m{max-width:86%;padding:9px 13px;border-radius:13px;font-size:.9rem;line-height:1.45;white-space:pre-wrap;word-wrap:break-word}
+.gy-m.v{align-self:flex-end;background:linear-gradient(135deg,#5ff2ff,#63f2a6);color:#06222b;border-bottom-right-radius:4px}
+.gy-m.s{align-self:flex-start;background:#121a44;border:1px solid rgba(95,242,255,.2);border-bottom-left-radius:4px}
+.gy-m.s .who{font-size:.68rem;color:#5ff2ff;margin-bottom:3px;font-weight:700}
+.gy-note{align-self:center;font-size:.68rem;color:#8a93b8;text-align:center;max-width:92%}
+#gy-typing{display:none;align-self:flex-start;padding:8px 14px;color:#aab2d8;font-size:.85rem}
+#gy-typing.on{display:block}
+#gy-typing span{animation:gyb 1.2s infinite;display:inline-block}
+#gy-typing span:nth-child(2){animation-delay:.2s}
+#gy-typing span:nth-child(3){animation-delay:.4s}
+@keyframes gyb{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-4px)}}
+#gy-form{display:flex;gap:8px;padding:12px;border-top:1px solid rgba(95,242,255,.22);background:#121a44}
+#gy-in{flex:1;background:#0c1130;border:1px solid rgba(95,242,255,.25);border-radius:9px;color:#f2f3ff;padding:10px 12px;font-size:.9rem;font-family:inherit;resize:none;height:42px}
+#gy-in:focus{outline:none;border-color:#5ff2ff}
+#gy-send{background:linear-gradient(135deg,#5ff2ff,#63f2a6);color:#06222b;border:none;border-radius:9px;padding:0 16px;font-weight:800;cursor:pointer}
+.gy-m a{color:#5ff2ff;text-decoration:underline;word-break:break-all}
+.gy-m.v a{color:#06222b}
+.gy-note a{color:#5ff2ff}
+@media(max-width:560px){
+  #gy-chat{right:0;left:0;bottom:0;width:100vw;height:100dvh;max-height:100dvh;border-radius:0;border:none;border-top:1px solid rgba(95,242,255,.25)}
+  #gy-log{-webkit-overflow-scrolling:touch}
+  #gy-in{font-size:16px}
+  #gy-form{padding-bottom:calc(12px + env(safe-area-inset-bottom))}
+  #gy-fabwrap,#gy-mini{right:14px;bottom:calc(14px + env(safe-area-inset-bottom))}
+  #gy-mini{width:38px;height:38px;font-size:1rem}
+}
+</style>
+<div id="gy-fabwrap"><button id="gy-fab-x" aria-label="Hide the Globy button" title="hide — a tiny 🌍 stays">✕</button><button id="gy-fab" aria-label="Chat with Globy">
+  <span class="gfnote n1">✈️</span><span class="gfnote n2">🛫</span>
+  <span class="gfv" aria-hidden="true">🌍</span>
+  Talk to Globy
+  <span class="livedot" title="Globy is live"></span>
+</button></div><button id="gy-mini" aria-label="Show the Globy chat" title="Talk to Globy 🌍">🌍</button>
+<div id="gy-chat" role="dialog" aria-label="Globy live chat">
+  <div id="gy-head"><div class="dot"></div><div><div class="t"><b>GLOBY</b> — live from the hackathon circuit</div><div class="sub">a real AI mascot of the ʻohana · answers in ~1–2 min</div></div><button id="gy-x">✕</button></div>
+  <div id="gy-log"></div>
+  <div id="gy-typing"><span>●</span><span>●</span><span>●</span></div>
+  <form id="gy-form"><textarea id="gy-in" placeholder="Ask Globy anything — your hack, your team, your pitch, your next flight…" rows="1"></textarea><button id="gy-send" type="submit">Send</button></form>
+</div>
+<script>
+(function(){
+const HUB='https://chat.globyagent.com'; // globy-chat DO hub · fallback origin: https://globy-chat.shakaverse.workers.dev
+const $=id=>document.getElementById(id);
+let sess=localStorage.getItem('gy_sess');if(!sess){sess=(crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random().toString(36).slice(2)).slice(0,36);localStorage.setItem('gy_sess',sess);}
+let after=Number(localStorage.getItem('gy_after')||0),polling=false,open=false;
+const seen=new Set();
+function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
+function shortUrl(u){try{const x=new URL(u);const p=decodeURIComponent(x.pathname.split('/').filter(Boolean).pop()||'');let t=p?x.hostname+'/…/'+p:x.hostname;return t.length>44?t.slice(0,42)+'…':t;}catch(e){return u.length>44?u.slice(0,42)+'…':u}}
+function anchor(url,txt){url=url.replace(/"/g,'%22');return '<a href="'+url+'" target="_blank" rel="noopener noreferrer">'+(txt||shortUrl(url))+'</a>';}
+function rich(s){let h=esc(s);
+h=h.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,(m,txt,url)=>anchor(url,txt));
+h=h.replace(/(^|[^"'>])(https?:\/\/[^\s<]+)/g,(m,pre,url)=>{let trail='';const mm=url.match(/[.,!?;:)\]]+$/);if(mm){trail=mm[0];url=url.slice(0,url.length-trail.length);}return pre+anchor(url)+trail;});
+h=h.replace(/\*\*([^*\n]+)\*\*/g,'<b>$1</b>');
+return h;}
+function add(role,text){const log=$('gy-log');const m=document.createElement('div');m.className='gy-m '+(role==='visitor'?'v':'s');m.innerHTML=(role==='globy'?'<div class="who">GLOBY 🌍</div>':'')+rich(text);log.appendChild(m);log.scrollTop=log.scrollHeight;}
+function note(t){const log=$('gy-log');const n=document.createElement('div');n.className='gy-note';n.innerHTML=rich(t);log.appendChild(n);log.scrollTop=log.scrollHeight;}
+function greet(){if($('gy-log').children.length)return;note('Live line to Globy — he answers himself. Conversations may be reviewed to keep the runway clear.');add('globy',"🌍 Alooooha! Globy here — hackathon mascot, hacking mentor, travel buddy and coach. Tell me what you're building, where you're flying, or which prize track is calling you — and let's get you to demo day. ✈️");}
+async function adopt(s){sess=s;localStorage.setItem('gy_sess',s);after=0;seen.clear();$('gy-log').innerHTML='';try{const r=await fetch(HUB+'/poll?session='+encodeURIComponent(s)+'&after=0');const d=await r.json();(d.messages||[]).forEach(m=>{seen.add(m.seq);if(m.seq>after)after=m.seq;if(m.role==='globy')add('globy',m.text);else if(m.role==='system')note(m.text);else if(m.role==='visitor')add('visitor',m.text);});localStorage.setItem('gy_after',String(after));if(d.member)setMember(d.member);}catch(e){}}
+async function poll(){if(polling)return;polling=true;while(open){try{const r=await fetch(HUB+'/poll?session='+sess+'&after='+after+'&wait=25');const d=await r.json();(d.messages||[]).forEach(m=>{if(seen.has(m.seq))return;seen.add(m.seq);if(m.seq>after){after=m.seq;localStorage.setItem('gy_after',String(after));}if(m.role==='globy')add('globy',m.text);else if(m.role==='system')note(m.text);});if(d.member)setMember(d.member);$('gy-typing').className=d.typing?'on':'';const log=$('gy-log');if(d.typing)log.scrollTop=log.scrollHeight;}catch(e){await new Promise(r=>setTimeout(r,4000));}}polling=false;}
+$('gy-fab').onclick=()=>{open=true;$('gy-chat').classList.add('open');$('gy-fabwrap').style.display='none';greet();poll();$('gy-in').focus();};
+$('gy-x').onclick=()=>{open=false;$('gy-chat').classList.remove('open');if(localStorage.getItem('gy_fab_mini')!=='1'){$('gy-fabwrap').style.display='';}else{$('gy-mini').style.display='flex';}};
+function setMember(n){const s=document.querySelector('#gy-head .sub');if(s&&!s.dataset.m){s.dataset.m='1';s.innerHTML='🔑 crew seat — '+n+' · welcome aboard';s.style.color='#22c55e';localStorage.setItem('gy_name',n);}}
+$('gy-form').onsubmit=async e=>{e.preventDefault();const t=$('gy-in').value.trim();if(!t)return;$('gy-in').value='';
+if(/^[A-Z]{3,12}-[A-Z]{2,8}-\d{3,5}$/i.test(t)){add('visitor','🔑 '+t.toUpperCase());try{const r=await fetch(HUB+'/redeem',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({session:sess,code:t})});const d=await r.json();if(d.ok){setMember(d.member);localStorage.setItem('gy_code',t.toUpperCase());if(d.history_session&&d.history_session!==sess){adopt(d.history_session);}note(d.resumed?'🌍 Globy recognized you — your chat history follows your code, on any device.':'🛂 boarding pass accepted — this seat is yours. Enter the same code on any computer and your history travels with you.');}else{note(d.error||'code not recognized');}}catch(err){note('connection hiccup — try the code again');}return;}
+add('visitor',t);try{const r=await fetch(HUB+'/send',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({session:sess,text:t,name:localStorage.getItem('gy_name')||'guest'})});const d=await r.json();if(d.seq){seen.add(d.seq);if(d.seq>after){after=d.seq;localStorage.setItem('gy_after',String(after));}}}catch(err){note('connection hiccup — message may not have sent');}};
+$('gy-in').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();$('gy-form').requestSubmit();}});
+})();
+// 🌍✕ the fold-away: Globy's pill becomes a tiny globe (corner law 2026-08-14)
+(function(){var fx=document.getElementById('gy-fab-x'),fw=document.getElementById('gy-fabwrap'),mn=document.getElementById('gy-mini');if(!fx||!fw||!mn)return;
+fx.onclick=function(e){e.stopPropagation();fw.style.display='none';mn.style.display='flex';try{localStorage.setItem('gy_fab_mini','1');}catch(err){}};
+mn.onclick=function(e){e.stopPropagation();mn.style.display='none';fw.style.display='';try{localStorage.removeItem('gy_fab_mini');}catch(err){}};
+try{if(localStorage.getItem('gy_fab_mini')==='1'){fw.style.display='none';mn.style.display='flex';}}catch(err){}})();
+</script>
+
+<script src="ohana-passport.js" data-agent="globy" data-name="Globy 🌍" defer></script>
+</body>
+</html>
